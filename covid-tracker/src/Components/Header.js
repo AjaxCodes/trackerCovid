@@ -4,6 +4,7 @@ import "./Header.css";
 
 function Header() {
   const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState("worldwide");
 
   //https://disease.sh/v3/covid-19/states/{states}
 
@@ -21,13 +22,26 @@ function Header() {
     };
     getCountriesData();
   }, []);
+
+  const onCountryChange = async (event) => {
+    const countryCode = event.target.value;
+
+    console.log("**** Country code is working ****", countryCode);
+    setCountry(countryCode);
+  };
+
   return (
     <div className="header">
       <div className="appHeader">
         <h1>Covid Tracker</h1>
 
         <FormControl className="appDropdown">
-          <Select varient="outlined" vlaue="abc">
+          <Select
+            variant="outlined"
+            onChange={onCountryChange}
+            value={country}
+          >
+            <MenuItem value="worldwide">Worldwide</MenuItem>
             {countries.map((country) => (
               <MenuItem value={country.value}>{country.name}</MenuItem>
             ))}
