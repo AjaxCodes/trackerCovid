@@ -2,15 +2,26 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Statsbox from "./Components/Statsbox";
 import Map from "./Components/Map";
+import Table from "./Components/Table"
 import { FormControl, Select, MenuItem } from "@material-ui/core";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Card, CardContent,} from "@material-ui/core";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  const [ tableData, setTableData] = useState([]);
 
-  //https://disease.sh/v3/covid-19/states/{states} api call to do states
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
+  }, []);
+
+  //https://disease.sh/v3/covid-19/states/{states} api call to do states ****** 
+  //create another dropdown for only united states.
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -21,6 +32,7 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
+          setTableData(data);
           setCountries(countries);
         });
     };
@@ -91,6 +103,7 @@ function App() {
         <Card className="appRight">
           <CardContent>
             <h3>Cases By Country</h3>
+            <Table countries={tableData} />
             <h3>New Cases Worldwide</h3>
           </CardContent>
         </Card>
