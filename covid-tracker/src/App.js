@@ -7,12 +7,16 @@ import LineGraph from "./Components/LineGraph";
 import { FormControl, Select, MenuItem } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { sortData } from "./util";
+import "leaflet/dist/leaflet.css";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setmapCountries] = useState([]);
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -21,9 +25,6 @@ function App() {
         setCountryInfo(data);
       });
   }, []);
-
-  //https://disease.sh/v3/covid-19/states/{states} api call to do states ******
-  //create another dropdown for only united states.
 
   useEffect(() => {
     const getCountriesData = async () => {
@@ -36,6 +37,7 @@ function App() {
           }));
           const sortedData = sortData(data);
           setTableData(sortedData);
+          setmapCountries(data);
           setCountries(countries);
         });
     };
@@ -58,6 +60,8 @@ function App() {
         // all of the data
         //from the country response
         setCountryInfo(data);
+        setMapCenter([data.countryInfo.lat, data.countryInfo.lng]);
+        setMapZoom(4);
       });
   };
   console.log("**** country info ****", countryInfo);
@@ -66,8 +70,7 @@ function App() {
       <div className="appLeft">
         <div className="appHeader">
           <h1>Covid Tracker</h1>
-
-          <FormControl className="headerDropdown">
+          <FormControl className="appDropdown">
             <Select
               variant="outlined"
               onChange={onCountryChange}
@@ -88,7 +91,7 @@ function App() {
             total={countryInfo.cases}
           />
           <Statsbox
-            title="Recoverd "
+            title="Recoverd"
             cases={countryInfo.todayRecovered}
             total={countryInfo.recovered}
           />
@@ -98,12 +101,10 @@ function App() {
             total={countryInfo.deaths}
           />
         </div>
-        <div className="appMap">
-          <Map />
-        </div>
+        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
-      <div>
-        <Card className="appRight">
+      <div className="appRight">
+        <Card>
           <CardContent>
             <h3>Cases By Country</h3>
             <Table countries={tableData} />

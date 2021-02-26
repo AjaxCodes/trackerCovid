@@ -4,26 +4,27 @@
 body {
   background-color: lightgray;
 }
-.appStats {
-  display: flex;
-  justify-content: space-between;
-}
 .app {
   display: flex;
   justify-content: space-evenly;
   padding: 20px;
 }
-.appLeft {
-  flex: 0.9;
-}
-.appRight {
-  flex: 0.1;
-}
-.appHeader{
+.appHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+.appStats {
+  display: flex;
+  justify-content: space-between;
+}
+.appLeft {
+  flex: 0.9;
+}
+.appRight {
+  padding-left: 20px;
+  flex: 0.1;
 }
 @media (max-width: 990px) {
   .app {

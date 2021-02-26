@@ -84,8 +84,8 @@ function LineGraph({ casesType = "cases" }) {
           data={{
             datasets: [
               {
-                backgroundColor: "rgba (204, 16, 52, 0.5)",
-                borderColor: "#CC1034",
+                backgroundColor: "rgba (204, 18, 57, 0.5)",
+                borderColor: "#CC2044",
                 data: data,
               },
             ],
