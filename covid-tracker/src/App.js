@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import Statsbox from "./Components/Statsbox";
 import Map from "./Components/Map";
-import Table from "./Components/Table"
+import Table from "./Components/Table";
+import LineGraph from "./Components/LineGraph";
 import { FormControl, Select, MenuItem } from "@material-ui/core";
-import { Card, CardContent,} from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
+import { sortData } from "./util";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
-  const [ tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -20,7 +22,7 @@ function App() {
       });
   }, []);
 
-  //https://disease.sh/v3/covid-19/states/{states} api call to do states ****** 
+  //https://disease.sh/v3/covid-19/states/{states} api call to do states ******
   //create another dropdown for only united states.
 
   useEffect(() => {
@@ -32,7 +34,8 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
-          setTableData(data);
+          const sortedData = sortData(data);
+          setTableData(sortedData);
           setCountries(countries);
         });
     };
@@ -105,6 +108,7 @@ function App() {
             <h3>Cases By Country</h3>
             <Table countries={tableData} />
             <h3>New Cases Worldwide</h3>
+            <LineGraph />
           </CardContent>
         </Card>
       </div>
