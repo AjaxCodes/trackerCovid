@@ -3,11 +3,37 @@
     height: 500px;
     background-color: white;
     padding: 1rem;
+    padding-bottom: 10px;
     border-radius: 20px;
     margin-top: 15px;
     box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
 }
 .map .leaflet-container {
     height: 100%;
-    
+
+}
+
+.popupFlag img{
+    width: 80px;
+    border-radius: 5px;
+
+
+}
+.popupFlag{
+    height: 60px;
+    width: 100%;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.popupCases,
+.popupRecovered,
+.popupDeaths{
+    font-size: 14px;
+    margin-top: 5px;
+}
+.popupName{
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
 }
